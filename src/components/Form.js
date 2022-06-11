@@ -27,6 +27,7 @@ function Form() {
     firstName: "Sylvia",
     lastName: "Woods",
     admin: false,
+    submittedData: [{firstName: "Julien" , lastName: "Henry", ifChecked: "✔️"}]
   });
 
   function handleChange(event) {
@@ -46,9 +47,38 @@ function Form() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(formData);
+    let check
+    if(formData.admin){
+      check = "✔️"
+    }
+    else check = ""
+
+    setFormData({
+      firstName: "",
+      lastName: "",
+      admin: false,
+      submittedData: [...formData.submittedData, {firstName: formData.firstName, lastName: formData.lastName, ifChecked: check}]
+      });
 
   }
+
+  const listOfSubmissions = formData.submittedData.map((data, index) => { 
+    return (
+      <div key={index}>
+        {data.firstName} {data.lastName} {data.ifChecked}
+      </div>
+    );
+  });
+
+  function AfterSubmit(){
+    return(
+      <div>
+        <h3>Submissions</h3>
+        {listOfSubmissions}
+      </div>
+    )
+  }
+
   
 
   return (
@@ -73,9 +103,8 @@ function Form() {
         checked={formData.admin}
       />
       <button type="submit">Submit</button>
+      <AfterSubmit />
     </form>
-    <h3>Submissions</h3>
-    {/* {listOfSubmissions} */}
     </div>
   );
 }
